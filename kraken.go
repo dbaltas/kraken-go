@@ -3,9 +3,22 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/beldur/kraken-go-api-client"
 )
+
+func formatPairTickerInfo(pair string, pairTicker krakenapi.PairTickerInfo) string {
+	lastPrice, _ := strconv.ParseFloat(pairTicker.Close[0], 64);
+	volume, _ := strconv.ParseFloat(pairTicker.Volume[1], 64);
+	volumeAveragePrice, _ := strconv.ParseFloat(pairTicker.VolumeAveragePrice[1], 64);
+	return fmt.Sprintf("%-10s %9.3f %9.3f %12.3f %9.3fM",
+		pair,
+		lastPrice,
+		pairTicker.OpeningPrice,
+		volume,
+		volume * volumeAveragePrice/1000000)
+}
 
 func main() {
 	api := krakenapi.New("KEY", "SECRET")
@@ -16,26 +29,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("BCH/EUR")
-	fmt.Println(ticker.BCHEUR.OpeningPrice)
-	fmt.Println(ticker.BCHEUR.Close)
-	fmt.Println(ticker.BCHEUR.Volume)
-
-	fmt.Println()
-	fmt.Println("XBT/EUR")
-	fmt.Println(ticker.XXBTZEUR.OpeningPrice)
-	fmt.Println(ticker.XXBTZEUR.Close)
-	fmt.Println(ticker.XXBTZEUR.Volume)
-
-	fmt.Println()
-	fmt.Println("XMR/EUR")
-	fmt.Println(ticker.XXMRZEUR.OpeningPrice)
-	fmt.Println(ticker.XXMRZEUR.Close)
-	fmt.Println(ticker.XXMRZEUR.Volume)
-
-	fmt.Println()
-	fmt.Println("DASH/EUR")
-	fmt.Println(ticker.DASHEUR.OpeningPrice)
-	fmt.Println(ticker.DASHEUR.Close)
-	fmt.Println(ticker.DASHEUR.Volume)
+	fmt.Printf("%-10s %9s %9s %12s %10s\n",
+		"Pair", "Last", "24h ago", "24h Volume", "24h EUR")
+	fmt.Println(formatPairTickerInfo("BCH/EUR", ticker.BCHEUR))
+	fmt.Println(formatPairTickerInfo("XBT/EUR", ticker.XXBTZEUR))
+	fmt.Println(formatPairTickerInfo("XMR/EUR", ticker.XXMRZEUR))
+	fmt.Println(formatPairTickerInfo("DASH/EUR", ticker.DASHEUR))
 }
