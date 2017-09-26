@@ -23,14 +23,20 @@ func formatPairTickerInfo(pair string, pairTicker krakenapi.PairTickerInfo) stri
 func main() {
 	api := krakenapi.New("KEY", "SECRET")
 
-	ticker, err := api.Ticker(krakenapi.BCHEUR, krakenapi.XXBTZEUR,
-		krakenapi.XXMRZEUR, krakenapi.DASHEUR)
+	ticker, err := api.Ticker(
+		krakenapi.XETHZGBP,
+		krakenapi.BCHEUR,
+		krakenapi.XXBTZEUR,
+		krakenapi.XXMRZEUR,
+		krakenapi.DASHEUR)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Printf("%-10s %9s %9s %12s %10s\n",
 		"Pair", "Last", "24h ago", "24h Volume", "24h EUR")
+
+	fmt.Println(formatPairTickerInfo("ETH/EUR", ticker.XETHZGBP))
 	fmt.Println(formatPairTickerInfo("BCH/EUR", ticker.BCHEUR))
 	fmt.Println(formatPairTickerInfo("XBT/EUR", ticker.XXBTZEUR))
 	fmt.Println(formatPairTickerInfo("XMR/EUR", ticker.XXMRZEUR))

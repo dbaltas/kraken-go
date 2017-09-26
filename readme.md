@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dbaltas/kraken-go.svg?branch=master)](https://travis-ci.org/dbaltas/kraken-go)
+
 # kraken-go
 Consumes Kraken GO API Agent to display prices and volumes of cryptocurrencies
 

@@ -16,8 +16,8 @@ func TestFormat(t *testing.T) {
 	pairTicker.VolumeAveragePrice = volumeAveragePrice
 	pairTicker.OpeningPrice = 382.34
 	output := formatPairTickerInfo(pair, *pairTicker)
-	if output != "BCH/EUR      380.000   382.340   102000.000 10443.066M" {
-		t.Errorf(`%s\n%s\n`, output,
-			"BCH/EUR      380.000     0.000   102000.000 10443.066M")
+	expected := "BCH/EUR      380.000   382.340   102000.000 10443.066M"
+	if output != expected {
+		t.Errorf(`%s\n%s\n`, output, expected)
 	}
 }
